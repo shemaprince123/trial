@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Interface</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .chat-container {
+        max-width: 600px;
+        margin: auto;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .messages {
+        height: 400px;
+        overflow-y: scroll;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .message {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .my-message {
+        background-color: #d1ffd1;
+        text-align: right;
+      }
+
+      .other-message {
+        background-color: #f1f1f1;
+        text-align: left;
+      }
+
+      .username {
+        font-weight: bold;
+        margin-right: 5px;
+      }
+
+      input[type="text"] {
+        width: 75%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-box">
+        <div id="messages" class="messages"></div>
+        <input type="text" id="username-input" placeholder="Your name..." />
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Type your message..."
+        />
+        <button id="send-button">Send</button>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("send-button")
+        .addEventListener("click", function () {
+          const usernameInput = document.getElementById("username-input");
+          const messageInput = document.getElementById("message-input");
+          const username = usernameInput.value.trim();
+          const messageText = messageInput.value.trim();
+
+          if (username && messageText) {
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message", "my-message");
+            messageElement.innerHTML = `<span class="username">${username}:</span> ${messageText}`;
+
+            const messagesContainer = document.getElementById("messages");
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the bottom
+
+            messageInput.value = ""; // Clear the message input
+          }
+        });
+
+      // Example of adding other people's messages
+      const otherMessages = [
+        { username: "Diana", text: "Hi" },
+        { username: "Jeje", text: "How are you guys?" },
+        { username: "Liliane", text: "Fine. You?" },
+      ];
+
+      otherMessages.forEach((msg, index) => {
+        setTimeout(() => {
+          const otherMessageElement = document.createElement("div");
+          otherMessageElement.classList.add("message", "other-message");
+          otherMessageElement.innerHTML = `<span class="username">${msg.username}:</span> ${msg.text}`;
+
+          const messagesContainer = document.getElementById("messages");
+          messagesContainer.appendChild(otherMessageElement);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the bottom
+        }, index * 2000); // Stagger the messages
+      });
+    </script>
+  </body>
+</html>
